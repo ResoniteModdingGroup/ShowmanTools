@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>ShowmanTools</AssemblyTitle>
+    <RootNamespace>ShowmanTools</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>ShowmanTools</PackageId>
+    <Title>Showman Tools</Title>
+    <Authors>Banane9</Authors>
+    <Version>1.0.0</Version>
+    <Description>Adds the ability to stream (voice) audio into unfocused worlds and other useful abilities to make streaming Resonite more convenient.</Description>
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/ResoniteModdingGroup/ShowmanTools</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+    <PackageTags>mod; mods; monkeyloader; resonite; audio; live; streaming; streams; stream; camera; anchors; unfocused; world; worlds; show</PackageTags>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage)</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnablePackageValidation>true</EnablePackageValidation>
+
+    <!-- Optional: Detect breaking changes from a previous stable version
+    <PackageValidationBaselineVersion>0.1.0-beta</PackageValidationBaselineVersion> -->
+  </PropertyGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy Condition="'$(CopyToLibraries)'=='true'" SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(ResonitePath)\MonkeyLoader\Mods\$(PackageId).nupkg" />
+    <Message Condition="'$(CopyToLibraries)'=='true'" Text="Copied '$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg' to '$(ResonitePath)\MonkeyLoader\Mods\$(PackageId).nupkg'" Importance="high" />
+  </Target>
+  
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+    <None Include="Locale\*" Pack="true" PackagePath="content/Locale/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MicroUtils.HarmonyAnalyzers" Version="1.4.0-rc2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.22.0-beta" GeneratePathProperty="true" />
+    <PackageReference Include="PolySharp" Version="1.15.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Resonite.Elements.Core" Version="1.4.3" />
+    <PackageReference Include="Resonite.FrooxEngine" Version="2025.2.29.174" />
+  </ItemGroup>
+</Project>
