@@ -13,40 +13,16 @@ using MonkeyLoader.Resonite;
 
 namespace ShowmanTools
 {
+    [HarmonyPatchCategory(nameof(ShowMustGoOn))]
+    [HarmonyPatch(typeof(AudioStreamInterface), nameof(AudioStreamInterface.SetAudioStream))]
     internal sealed class ShowMustGoOn : ConfiguredResoniteMonkey<ShowMustGoOn, ShowMustGoOnConfig>
     {
-        private static readonly ConditionalWeakTable<Component, object?> _audioStreams = new();
+        private static readonly ConditionalWeakTable<IAudioStream, Component?> _audioStreams = new();
 
-        [HarmonyPatch(typeof(AudioStreamController))]
-        private static class AudioStreamControllerPatch
+        private static void Postfix(IAudioStream source)
         {
-            [HarmonyTranspiler]
-            [HarmonyPatch(nameof(AudioStreamController.BuildUI))]
-            private static IEnumerable<CodeInstruction> BuildUITranspiler(IEnumerable<CodeInstruction> codeInstructions)
-            {
-                var attachComponentMethod = typeof(ContainerWorker<Component>).GetMethods(AccessTools.all)
-                    .Single(method => method.IsGenericMethodDefinition && method.Name == nameof(ContainerWorker<Component>.AttachComponent))
-                    .MakeGenericMethod(typeof(UserAudioStream<StereoSample>));
-
-                foreach (var instruction in codeInstructions)
-                {
-                    if (instruction.Calls(attachComponentMethod))
-                    {
-                        instruction.opcode = OpCodes.Call;
-                        instruction.operand = typeof(AudioStreamControllerPatch).GetMethod(nameof(MakeAudioStream), AccessTools.all);
-                    }
-
-                    yield return instruction;
-                }
-            }
-
-            private static UserAudioStream<StereoSample> MakeAudioStream(Slot slot, bool runOnAttachBehavior, Action<UserAudioStream<StereoSample>> beforeAttach)
-            {
-                var audioStream = slot.AttachComponent(runOnAttachBehavior, beforeAttach);
-                _audioStreams.Add(audioStream, null);
-
-                return audioStream;
-            }
+            if (source is not null)
+                _audioStreams.Add(source, null);
         }
 
         [HarmonyPatch]
@@ -55,11 +31,14 @@ namespace ShowmanTools
             private static bool MuteCheck(Component audioStream)
             {
                 var world = audioStream.World;
+                var stream = Traverse.Create(audioStream)
+                    .Field(nameof(UserAudioStream<MonoSample>.Stream))
+                    .GetValue<IAudioStream>();
 
                 return world.Focus == World.WorldFocus.Focused
-                    || ((ConfigSection.EnableVoiceWhileUnfocused
-                            || (ConfigSection.EnableStreamingWhileUnfocused && _audioStreams.TryGetValue(audioStream, out _)))
-                        && world.Focus == World.WorldFocus.Background);
+                    || (world.Focus == World.WorldFocus.Background
+                        && (ConfigSection.EnableVoiceWhileUnfocused
+                            || (ConfigSection.EnableStreamingWhileUnfocused && _audioStreams.TryGetValue(stream, out _))));
             }
 
             private static IEnumerable<MethodBase> TargetMethods()
