@@ -17,7 +17,7 @@ namespace ShowmanTools
     [HarmonyPatch(typeof(AudioStreamInterface), nameof(AudioStreamInterface.SetAudioStream))]
     internal sealed class ShowMustGoOn : ConfiguredResoniteMonkey<ShowMustGoOn, ShowMustGoOnConfig>
     {
-        private static readonly ConditionalWeakTable<IAudioStream, Component?> _audioStreams = new();
+        private static readonly ConditionalWeakTable<IAudioStream, object?> _audioStreams = new();
 
         private static void Postfix(IAudioStream source)
         {
@@ -26,19 +26,23 @@ namespace ShowmanTools
         }
 
         [HarmonyPatch]
+        [HarmonyPatchCategory(nameof(ShowMustGoOn))]
         private static class UserAudioStreamPatch
         {
             private static bool MuteCheck(Component audioStream)
             {
                 var world = audioStream.World;
-                var stream = Traverse.Create(audioStream)
+                var stream = (IAudioStream)Traverse.Create(audioStream)
                     .Field(nameof(UserAudioStream<MonoSample>.Stream))
-                    .GetValue<IAudioStream>();
+                    .GetValue<ISyncRef>()
+                    .Target;
+
+                var isAudioStream = _audioStreams.TryGetValue(stream, out _);
 
                 return world.Focus == World.WorldFocus.Focused
                     || (world.Focus == World.WorldFocus.Background
-                        && (ConfigSection.EnableVoiceWhileUnfocused
-                            || (ConfigSection.EnableStreamingWhileUnfocused && _audioStreams.TryGetValue(stream, out _))));
+                        && ((!isAudioStream && ConfigSection.EnableVoiceWhileUnfocused)
+                            || (isAudioStream && ConfigSection.EnableStreamingWhileUnfocused)));
             }
 
             private static IEnumerable<MethodBase> TargetMethods()

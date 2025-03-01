@@ -15,10 +15,11 @@ namespace ShowmanTools
     [HarmonyPatchCategory(nameof(RestrictedCameraAnchors))]
     internal sealed class RestrictedCameraAnchors : ResoniteMonkey<RestrictedCameraAnchors>
     {
-        private static string slotFieldName = null!;
-
-        private static void Postfix(InteractiveCameraControl __instance)
+        [HarmonyPostfix]
+        private static async Task PostfixAsync(Task __result, InteractiveCameraControl __instance)
         {
+            await __result;
+
             if (!Enabled)
                 return;
 
@@ -30,7 +31,7 @@ namespace ShowmanTools
                 return;
             }
 
-            lastAnchor.GetComponentInChildren<Grabbable>().OnlyUsers.Add().Target = __instance.LocalUser;
+            lastAnchor.GetComponentInChildren<Grabbable>().OnlyUsers.Add().Target = lastAnchor.LocalUser;
         }
 
         private static MethodBase TargetMethod()
@@ -40,15 +41,6 @@ namespace ShowmanTools
                     && method.GetCustomAttribute<CompilerGeneratedAttribute>() is not null);
 
             return taskMethod;
-
-            var moveNextMethod = AccessTools.AsyncMoveNext(taskMethod);
-
-            var slotField = AccessTools.GetDeclaredFields(moveNextMethod.DeclaringType)
-                .First(field => field.FieldType == typeof(Slot));
-
-            var slotFieldName = slotField.Name;
-
-            return moveNextMethod;
         }
     }
 }
