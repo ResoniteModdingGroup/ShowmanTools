@@ -15,6 +15,8 @@ namespace ShowmanTools
     [HarmonyPatchCategory(nameof(RestrictedCameraAnchors))]
     internal sealed class RestrictedCameraAnchors : ResoniteMonkey<RestrictedCameraAnchors>
     {
+        public override bool CanBeDisabled => true;
+
         [HarmonyPostfix]
         private static async Task PostfixAsync(Task __result, InteractiveCameraControl __instance)
         {

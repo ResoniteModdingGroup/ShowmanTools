@@ -7,7 +7,7 @@
 
     "ShowmanTools.Config.ShowMustGoOn.Name": "Die Show muss weitergehen!",
     "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Name": "Stimme",
-    "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Description": "Sende deine Stimme weiter in unfokussierte Welten.",
+    "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Description": "Sende deine Stimme weiter in unfokussierte Welten.<br/>Diese Einstellung kann ein Privatsphärerisiko darstellen - achte darauf, es nach der Nutzung wieder zu deaktivieren.",
     "ShowmanTools.Config.ShowMustGoOn.EnableStreamingWhileUnfocused.Name": "Benutzer-Audio",
     "ShowmanTools.Config.ShowMustGoOn.EnableStreamingWhileUnfocused.Description": "Sende dein Benutzer-Audio weiter in unfokussierte Welten.",
 
