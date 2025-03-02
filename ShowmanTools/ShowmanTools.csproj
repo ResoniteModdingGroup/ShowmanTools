@@ -9,7 +9,7 @@
     <PackageId>ShowmanTools</PackageId>
     <Title>Showman Tools</Title>
     <Authors>Banane9</Authors>
-    <Version>1.0.0</Version>
+    <Version>0.1.0</Version>
     <Description>Adds the ability to stream (voice) audio into unfocused worlds and other useful abilities to make streaming Resonite more convenient.</Description>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ResoniteModdingGroup/ShowmanTools</PackageProjectUrl>
