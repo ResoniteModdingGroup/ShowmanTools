@@ -2,5 +2,16 @@
   "localeCode": "de",
   "authors": [ "Banane9" ],
   "messages": {
+    "ShowmanTools.ShowMustGoOn.Name": "Die Show muss weitergehen!",
+    "ShowmanTools.ShowMustGoOn.Description": "Erlaubt es dir, deine Stimme oder einen Benutzer-Audio-Stream in unfokussierte Welten zu streamen.",
+
+    "ShowmanTools.Config.ShowMustGoOn.Name": "Die Show muss weitergehen!",
+    "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Name": "Stimme",
+    "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Description": "Sende deine Stimme weiter in unfokussierte Welten.",
+    "ShowmanTools.Config.ShowMustGoOn.EnableStreamingWhileUnfocused.Name": "Benutzer-Audio",
+    "ShowmanTools.Config.ShowMustGoOn.EnableStreamingWhileUnfocused.Description": "Sende dein Benutzer-Audio weiter in unfokussierte Welten.",
+
+    "ShowmanTools.RestrictedCameraAnchors.Name": "Beschränkte Kamera-Ankerpunkte",
+    "ShowmanTools.RestrictedCameraAnchors.Description": "Beschränkt die Kamera-Ankerpunkte der interaktiven Streaming Kamera darauf, dass sie nur von dir bewegt werden können."
   }
 }

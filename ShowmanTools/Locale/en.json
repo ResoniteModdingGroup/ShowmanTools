@@ -2,5 +2,14 @@
   "localeCode": "en",
   "authors": [ "Banane9" ],
   "messages": {
+    "ShowmanTools.ShowMustGoOn.Name": "The Show Must Go On!",
+    "ShowmanTools.ShowMustGoOn.Description": "Allows you to stream your voice or custom audio stream to unfocused worlds.",
+
+    "ShowmanTools.Config.ShowMustGoOn.Name": "The Show Must Go On!",
+    "ShowmanTools.Config.ShowMustGoOn.EnableVoiceWhileUnfocused.Name": "Voice",
+    "ShowmanTools.Config.ShowMustGoOn.EnableStreamingWhileUnfocused.Name": "Custom Audio",
+
+    "ShowmanTools.RestrictedCameraAnchors.Name": "Restricted Camera Anchors",
+    "ShowmanTools.RestrictedCameraAnchors.Description": "Restricts the interactive stream camera anchors to be movable only by you."
   }
 }

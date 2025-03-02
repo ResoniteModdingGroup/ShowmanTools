@@ -5,9 +5,9 @@ namespace ShowmanTools
 {
     internal sealed class ShowMustGoOnConfig : ConfigSection
     {
-        private static readonly DefiningConfigKey<bool> _enableStreamingWhileUnfocused = new("EnableStreamingWhileUnfocused", "Keep streaming audio to unfocused worlds.", () => true);
+        private static readonly DefiningConfigKey<bool> _enableStreamingWhileUnfocused = new("EnableStreamingWhileUnfocused", "Keep streaming custom audio to unfocused worlds.", () => true);
 
-        private static readonly DefiningConfigKey<bool> _enableVoiceWhileUnfocused = new("EnableVoiceWhileUnfocused", "Keep streaming voice to unfocused worlds.", () => false);
+        private static readonly DefiningConfigKey<bool> _enableVoiceWhileUnfocused = new("EnableVoiceWhileUnfocused", "Keep streaming your voice to unfocused worlds.", () => false);
 
         public override string Description => "Contains options for the ShowMustGoOn monkey.";
         public bool EnableStreamingWhileUnfocused => _enableStreamingWhileUnfocused;
